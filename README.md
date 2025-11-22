@@ -27,6 +27,19 @@ The careers portal connects students with employers, particularly those in the g
 -   **Employer Profiles**: Companies can create profiles to attract talent.
 -   **Green Profile**: A unique feature that showcases a student's sustainability-related achievements, skills, and scores derived from the LMS, making them more attractive to eco-conscious employers.
 
+## Screenshots
+
+*(Add screenshots of the application here. You can use markdown like this:)*
+
+**Landing Page:**
+![Landing Page]('/static/screencapture-127-0-0-1-8000-2025-11-22-15_20_30.png')
+
+**Student Dashboard:**
+![Student Dashboard]('/static/screencapture-127-0-0-1-8000-accounts-profile-2025-11-22-15_21_59.png')
+
+**Course Detail:**
+![Course Detail]('/static/screencapture-127-0-0-1-8000-ums-courses-2025-11-22-15_20_58.png')
+
 ## Technical Stack
 
 -   **Backend**: Django
