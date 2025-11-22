@@ -32,13 +32,13 @@ The careers portal connects students with employers, particularly those in the g
 *(Add screenshots of the application here. You can use markdown like this:)*
 
 **Landing Page:**
-![Landing Page]('/static/screencapture-127-0-0-1-8000-2025-11-22-15_20_30.png')
+![Landing Page](/static/screencapture-127-0-0-1-8000-2025-11-22-15_20_30.png)
 
 **Student Dashboard:**
-![Student Dashboard]('/static/screencapture-127-0-0-1-8000-accounts-profile-2025-11-22-15_21_59.png')
+![Student Dashboard](/static/screencapture-127-0-0-1-8000-accounts-profile-2025-11-22-15_21_59.png)
 
 **Course Detail:**
-![Course Detail]('/static/screencapture-127-0-0-1-8000-ums-courses-2025-11-22-15_20_58.png')
+![Course Detail](/static/screencapture-127-0-0-1-8000-ums-courses-2025-11-22-15_20_58.png)
 
 ## Technical Stack
 
