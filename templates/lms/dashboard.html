@@ -1,0 +1,292 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Learning Dashboard - Eco-Nexus LMS{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Welcome Section -->
+    <div class="mb-12">
+        <h1 class="text-5xl font-bold text-gray-800 mb-2">Welcome back, {{ user.first_name }}! 👋</h1>
+        <p class="text-xl text-gray-600">Continue your learning journey and achieve your environmental education goals</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white rounded-lg shadow-md p-6 border border-blue-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Courses Enrolled</p>
+                    <p class="text-4xl font-bold text-blue-600">{{ enrolled_courses_count }}</p>
+                </div>
+                <span class="text-5xl">📚</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-green-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Learning Hours</p>
+                    <p class="text-4xl font-bold text-green-600">{{ total_learning_hours }}</p>
+                </div>
+                <span class="text-5xl">⏱️</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-orange-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Quizzes Passed</p>
+                    <p class="text-4xl font-bold text-orange-600">{{ quizzes_passed }}</p>
+                </div>
+                <span class="text-5xl">✅</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-purple-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Certificates</p>
+                    <p class="text-4xl font-bold text-purple-600">{{ certificates_earned }}</p>
+                </div>
+                <span class="text-5xl">🏆</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+        <!-- Left Column: In Progress Courses (2/3) -->
+        <div class="lg:col-span-2">
+            <!-- Filters & Sort -->
+            <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-gray-800">📚 My Courses</h2>
+                    <select class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <option>Sort by: Recently Accessed</option>
+                        <option>Sort by: Progress</option>
+                        <option>Sort by: Enrolled Date</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- In Progress Courses -->
+            <div class="space-y-4 mb-8">
+                {% for course in in_progress_courses %}
+                <a href="{% url 'lms:course_detail' course.id %}" class="block bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg hover:border-blue-400 transition">
+                    <div class="flex items-start gap-6">
+                        <!-- Course Icon -->
+                        <div class="text-5xl flex-shrink-0">📖</div>
+
+                        <!-- Course Info -->
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-800 mb-1">{{ course.title }}</h3>
+                            <p class="text-gray-600 mb-3">{{ course.description|truncatewords:20 }}</p>
+
+                            <!-- Progress Bar -->
+                            <div class="mb-3">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm text-gray-600">Progress</span>
+                                    <span class="text-sm font-bold text-gray-800">65%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 65%;"></div>
+                                </div>
+                            </div>
+
+                            <!-- Course Meta -->
+                            <div class="flex flex-wrap gap-4 text-xs text-gray-600">
+                                <span>⏱️ {{ course.hours_completed }}/{{ course.total_hours }} hours</span>
+                                <span>📚 {{ course.modules_completed }}/{{ course.total_modules }} modules</span>
+                                <span>📝 {{ course.quizzes_passed }}/{{ course.total_quizzes }} quizzes passed</span>
+                                <span>⏰ Started {{ course.enrolled_date|date:"M d" }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="flex-shrink-0">
+                            <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold whitespace-nowrap">
+                                Continue →
+                            </button>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                <div class="bg-gray-50 rounded-lg p-12 text-center border border-gray-200">
+                    <div class="text-6xl mb-4">📭</div>
+                    <p class="text-gray-600 mb-4">You haven't started any courses yet</p>
+                    <a href="{% url 'lms:course_list' %}" class="inline-block px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">
+                        Browse Courses
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Completed Courses -->
+            {% if completed_courses %}
+            <div>
+                <h3 class="text-xl font-bold text-gray-800 mb-4">✅ Completed Courses</h3>
+                <div class="space-y-3">
+                    {% for course in completed_courses %}
+                    <a href="{% url 'lms:course_detail' course.id %}" class="block p-4 bg-green-50 rounded-lg border border-green-300 hover:bg-green-100 transition">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-gray-800">{{ course.title }}</p>
+                                <p class="text-xs text-gray-600">Completed {{ course.completion_date|date:"M d, Y" }}</p>
+                            </div>
+                            <span class="text-2xl">🏆</span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Right Column: Sidebar (1/3) -->
+        <div class="lg:col-span-1">
+            <!-- Gamification - Points & Badges -->
+            <div class="bg-white rounded-lg shadow-md p-6 border border-yellow-300 sticky top-8 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span>⭐</span>
+                    Achievements
+                </h3>
+
+                <div class="space-y-4">
+                    <!-- Points -->
+                    <div class="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <p class="text-sm text-gray-600 mb-1">Total Points</p>
+                        <p class="text-3xl font-bold text-yellow-600">{{ total_points }}</p>
+                        <p class="text-xs text-gray-600 mt-2">This month: <strong class="text-yellow-600">+{{ monthly_points }}</strong></p>
+                    </div>
+
+                    <!-- Badges -->
+                    <div>
+                        <p class="text-sm font-semibold text-gray-700 mb-2">Badges Earned</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            {% for badge in earned_badges %}
+                            <div class="p-2 bg-gray-50 rounded-lg border border-gray-200 text-center">
+                                <span class="text-2xl block mb-1">{{ badge.icon }}</span>
+                                <p class="text-xs text-gray-700">{{ badge.name }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Streaks -->
+                    <div class="p-4 bg-orange-50 rounded-lg border border-orange-200">
+                        <p class="text-sm text-gray-600 mb-1">Learning Streak</p>
+                        <p class="text-2xl font-bold text-orange-600">{{ learning_streak }} days 🔥</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommended Courses -->
+            <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">💡 Recommended</h3>
+
+                <div class="space-y-3">
+                    {% for course in recommended_courses|slice:":3" %}
+                    <a href="{% url 'lms:course_detail' course.id %}" class="block p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-blue-400 hover:bg-blue-50 transition">
+                        <p class="font-semibold text-gray-800 text-sm mb-1">{{ course.title|truncatewords:5 }}</p>
+                        <p class="text-xs text-gray-600">{{ course.modules_count }} modules</p>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <a href="{% url 'lms:course_list' %}" class="block mt-4 text-center text-blue-600 hover:underline text-sm font-semibold">
+                    Browse All Courses →
+                </a>
+            </div>
+
+            <!-- Upcoming Deadlines -->
+            <div class="bg-orange-50 rounded-lg p-6 border border-orange-300">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">⏰ Upcoming</h3>
+
+                <div class="space-y-3 text-sm">
+                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg">
+                        <span class="text-xl">📝</span>
+                        <div>
+                            <p class="font-semibold text-gray-800">Quiz Due</p>
+                            <p class="text-xs text-gray-600">Environmental Ethics • Tomorrow</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg">
+                        <span class="text-xl">📊</span>
+                        <div>
+                            <p class="font-semibold text-gray-800">Project Due</p>
+                            <p class="text-xs text-gray-600">Climate Action • In 3 days</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 p-3 bg-white rounded-lg">
+                        <span class="text-xl">🎯</span>
+                        <div>
+                            <p class="font-semibold text-gray-800">Module Ends</p>
+                            <p class="text-xs text-gray-600">Sustainability • In 5 days</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200 mb-12">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">📝 Recent Activity</h2>
+
+        <div class="space-y-3">
+            <div class="flex gap-4 p-4 bg-gray-50 rounded-lg">
+                <span class="text-2xl">✅</span>
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-800">Quiz Passed: Climate Change Basics</p>
+                    <p class="text-sm text-gray-600">Score: 92% • 2 hours ago</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4 p-4 bg-gray-50 rounded-lg">
+                <span class="text-2xl">📚</span>
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-800">Lesson Completed: Renewable Energy</p>
+                    <p class="text-sm text-gray-600">Module: Energy & Sustainability • Yesterday</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4 p-4 bg-gray-50 rounded-lg">
+                <span class="text-2xl">🏆</span>
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-800">Achievement Unlocked: Quick Learner</p>
+                    <p class="text-sm text-gray-600">Completed 5 modules in one week • 2 days ago</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4 p-4 bg-gray-50 rounded-lg">
+                <span class="text-2xl">🎓</span>
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-800">Certificate Earned: Environmental Science 101</p>
+                    <p class="text-sm text-gray-600">Course completed with 88% average • 5 days ago</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action CTAs -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="{% url 'lms:course_list' %}" class="bg-blue-50 rounded-lg p-6 border border-blue-300 hover:bg-blue-100 transition text-center">
+            <h3 class="text-lg font-bold text-gray-800 mb-2">📚 Browse Courses</h3>
+            <p class="text-sm text-gray-600">Explore more environmental courses</p>
+        </a>
+
+        <a href="{% url 'careers:job_list' %}" class="bg-green-50 rounded-lg p-6 border border-green-300 hover:bg-green-100 transition text-center">
+            <h3 class="text-lg font-bold text-gray-800 mb-2">💼 Explore Jobs</h3>
+            <p class="text-sm text-gray-600">Find career opportunities</p>
+        </a>
+
+        <a href="{% url 'accounts:profile' %}" class="bg-orange-50 rounded-lg p-6 border border-orange-300 hover:bg-orange-100 transition text-center">
+            <h3 class="text-lg font-bold text-gray-800 mb-2">👤 Your Profile</h3>
+            <p class="text-sm text-gray-600">View your learning progress</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

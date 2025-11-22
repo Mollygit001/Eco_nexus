@@ -1,0 +1,453 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Eco-Nexus - Green Education & Career Platform</title>
+  <!-- Tailwind CSS from CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .bg-gradient-animated {
+      background-size: 200% 200%;
+      animation: gradient-shift 8s ease infinite;
+    }
+  </style>
+</head>
+<body class="text-gray-900 bg-white">
+  <!-- Navigation -->
+  <nav class="fixed top-0 z-50 w-full border-b border-gray-100 shadow-sm bg-white/95 backdrop-blur-md">
+    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="/" class="flex items-center space-x-2 group">
+          <div class="flex items-center justify-center w-8 h-8 transition-transform transform rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 group-hover:scale-110">
+            <span class="text-lg font-bold text-white">E</span>
+          </div>
+          <span class="hidden text-xl font-bold text-transparent bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text sm:block">Eco-Nexus</span>
+        </a>
+        
+        <!-- Desktop Navigation -->
+        <div class="items-center hidden space-x-1 md:flex">
+          <a href="#features" class="px-3 py-2 text-sm font-medium text-gray-700 transition-colors rounded-lg hover:text-green-600">Features</a>
+          <a href="#modules" class="px-3 py-2 text-sm font-medium text-gray-700 transition-colors rounded-lg hover:text-green-600">Modules</a>
+          <a href="#about" class="px-3 py-2 text-sm font-medium text-gray-700 transition-colors rounded-lg hover:text-green-600">About</a>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex items-center space-x-3">
+          <button x-data="{ open: false }" @click="open = !open" class="p-2 md:hidden">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+          <a href="/accounts/signup/" class="px-3 py-2 text-sm font-medium text-green-700 transition-colors rounded-lg hover:text-green-900">Sign up</a>
+          <a href="/ums/courses/" class="hidden px-4 py-2 text-sm font-medium text-white transition-all transform rounded-lg sm:block bg-gradient-to-r from-green-600 to-emerald-600 hover:shadow-lg hover:scale-105">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="px-4 pt-32 pb-20 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="grid items-center gap-12 md:grid-cols-2">
+        <!-- Left Content -->
+        <div class="space-y-8">
+          <div class="space-y-4">
+            <h1 class="text-5xl font-bold leading-tight md:text-6xl">
+              Learn Green,<br>
+              <span class="text-transparent bg-gradient-to-r from-green-600 via-emerald-500 to-teal-600 bg-clip-text">Shape Future</span>
+            </h1>
+            <p class="text-xl text-gray-600">
+              Eco-Nexus is your complete platform for environmental education, professional development, and green career opportunities.
+            </p>
+          </div>
+          
+          <div class="flex flex-col gap-4 sm:flex-row">
+            <a href="/ums/courses/" class="inline-flex items-center justify-center px-8 py-4 font-semibold text-white transition-all transform rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:shadow-lg hover:-translate-y-1">
+              Explore Courses
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+              </svg>
+            </a>
+            <a href="/careers/jobs/" class="inline-flex items-center justify-center px-8 py-4 font-semibold text-green-600 transition-all border-2 border-green-600 rounded-lg hover:bg-green-50">
+              Find Jobs
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </a>
+          </div>
+
+          <div class="flex gap-8 pt-4">
+            <div>
+              <div class="text-3xl font-bold text-green-600">500+</div>
+              <p class="text-gray-600">Environmental Courses</p>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-green-600">1000+</div>
+              <p class="text-gray-600">Job Listings</p>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-green-600">50K+</div>
+              <p class="text-gray-600">Active Users</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Illustration -->
+        <div class="hidden md:block">
+          <div class="relative">
+            <div class="absolute inset-0 rounded-full bg-gradient-to-r from-green-400 to-emerald-400 blur-3xl opacity-20"></div>
+            <div class="relative p-8 border border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl">
+              <div class="space-y-4">
+                <div class="animate-float" style="animation-delay: 0s;">
+                  <div class="p-4 bg-white border border-green-100 rounded-lg shadow-lg">
+                    <div class="w-3/4 h-3 mb-2 bg-green-200 rounded"></div>
+                    <div class="w-full h-2 bg-green-100 rounded"></div>
+                  </div>
+                </div>
+                <div class="animate-float" style="animation-delay: 0.3s;">
+                  <div class="p-4 bg-white border rounded-lg shadow-lg border-emerald-100">
+                    <div class="w-full h-3 mb-2 rounded bg-emerald-200"></div>
+                    <div class="w-5/6 h-2 rounded bg-emerald-100"></div>
+                  </div>
+                </div>
+                <div class="animate-float" style="animation-delay: 0.6s;">
+                  <div class="p-4 bg-white border border-teal-100 rounded-lg shadow-lg">
+                    <div class="w-2/3 h-3 mb-2 bg-teal-200 rounded"></div>
+                    <div class="w-4/5 h-2 bg-teal-100 rounded"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="px-4 py-20 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-16 text-center">
+        <h2 class="mb-4 text-4xl font-bold md:text-5xl">Why Choose Eco-Nexus?</h2>
+        <p class="text-xl text-gray-600">Everything you need for environmental education and career growth</p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-3">
+        <!-- Feature 1 -->
+        <div class="p-8 transition-all bg-white border border-gray-100 group rounded-xl hover:border-green-200 hover:shadow-lg">
+          <div class="flex items-center justify-center w-12 h-12 mb-4 transition-transform transform rounded-lg bg-gradient-to-br from-green-400 to-emerald-500 group-hover:scale-110">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-xl font-bold">Comprehensive Curriculum</h3>
+          <p class="text-gray-600">Carefully curated environmental science courses covering sustainability, climate action, and conservation.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="p-8 transition-all bg-white border border-gray-100 group rounded-xl hover:border-green-200 hover:shadow-lg">
+          <div class="flex items-center justify-center w-12 h-12 mb-4 transition-transform transform rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 group-hover:scale-110">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m0 0l8-4m0 0l8 4m0 0v10l-8 4m0-10L4 7m0 0v10l8 4m8-4v-10"></path>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-xl font-bold">Interactive Learning</h3>
+          <p class="text-gray-600">Engage with interactive lessons, quizzes, case studies, and earn badges to showcase your achievements.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="p-8 transition-all bg-white border border-gray-100 group rounded-xl hover:border-green-200 hover:shadow-lg">
+          <div class="flex items-center justify-center w-12 h-12 mb-4 transition-transform transform rounded-lg bg-gradient-to-br from-teal-400 to-cyan-500 group-hover:scale-110">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.756-8.354-2.112M2 12.854c1.833 3.467 7.054 5.147 10 5.147s8.167-1.68 10-5.147M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-xl font-bold">Career Opportunities</h3>
+          <p class="text-gray-600">Access exclusive green job listings, connect with employers, and advance your environmental career.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="p-8 transition-all bg-white border border-gray-100 group rounded-xl hover:border-green-200 hover:shadow-lg">
+          <div class="flex items-center justify-center w-12 h-12 mb-4 transition-transform transform rounded-lg bg-gradient-to-br from-green-500 to-lime-500 group-hover:scale-110">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m0 0l-2-1m2 1v2.5M14 4l-2-1-2 1m2-1v2.5M9 17l-2 1m0 0l-2-1m2 1v2.5"></path>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-xl font-bold">Expert Instructors</h3>
+          <p class="text-gray-600">Learn from industry professionals and environmental leaders with real-world experience.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="p-8 transition-all bg-white border border-gray-100 group rounded-xl hover:border-green-200 hover:shadow-lg">
+          <div class="flex items-center justify-center w-12 h-12 mb-4 transition-transform transform rounded-lg bg-gradient-to-br from-lime-400 to-green-500 group-hover:scale-110">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-xl font-bold">Certification</h3>
+          <p class="text-gray-600">Earn recognized certificates and build your professional portfolio in environmental fields.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="p-8 transition-all bg-white border border-gray-100 group rounded-xl hover:border-green-200 hover:shadow-lg">
+          <div class="flex items-center justify-center w-12 h-12 mb-4 transition-transform transform rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 group-hover:scale-110">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="mb-2 text-xl font-bold">Affordable Pricing</h3>
+          <p class="text-gray-600">Flexible subscription plans designed for students, professionals, and organizations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modules Section -->
+  <section id="modules" class="px-4 py-20 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="mb-16 text-center">
+        <h2 class="mb-4 text-4xl font-bold md:text-5xl">Our Integrated Modules</h2>
+        <p class="text-xl text-gray-600">Everything in one ecosystem</p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-3">
+        <!-- UMS Card -->
+        <div class="relative overflow-hidden transition-shadow bg-white border border-gray-200 group rounded-2xl hover:shadow-2xl">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600"></div>
+          <div class="p-8">
+            <div class="flex items-center justify-center w-16 h-16 mb-4 transition-transform bg-blue-100 rounded-xl group-hover:scale-110">
+              <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z"></path>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-2xl font-bold">UMS</h3>
+            <p class="mb-4 text-gray-600">University Management System</p>
+            <p class="mb-6 text-sm text-gray-500">Browse university courses, view departments, semesters, and manage your academic journey.</p>
+            <a href="/ums/courses/" class="inline-flex items-center font-semibold text-blue-600 hover:text-blue-700 group/link">
+              Explore
+              <svg class="w-4 h-4 ml-2 transition-transform transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- LMS Card -->
+        <div class="relative overflow-hidden transition-shadow bg-white border border-gray-200 group rounded-2xl hover:shadow-2xl">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-emerald-600"></div>
+          <div class="p-8">
+            <div class="flex items-center justify-center w-16 h-16 mb-4 transition-transform bg-green-100 rounded-xl group-hover:scale-110">
+              <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-2xl font-bold">LMS</h3>
+            <p class="mb-4 text-gray-600">Environmental Learning Management</p>
+            <p class="mb-6 text-sm text-gray-500">Learn environmental science through interactive courses, take quizzes, and earn achievement badges.</p>
+            <a href="/lms/env-courses/" class="inline-flex items-center font-semibold text-green-600 hover:text-green-700 group/link">
+              Explore
+              <svg class="w-4 h-4 ml-2 transition-transform transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Careers Card -->
+        <div class="relative overflow-hidden transition-shadow bg-white border border-gray-200 group rounded-2xl hover:shadow-2xl">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 to-red-600"></div>
+          <div class="p-8">
+            <div class="flex items-center justify-center w-16 h-16 mb-4 transition-transform bg-orange-100 rounded-xl group-hover:scale-110">
+              <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.756-8.354-2.112M2 12.854c1.833 3.467 7.054 5.147 10 5.147s8.167-1.68 10-5.147M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+            <h3 class="mb-2 text-2xl font-bold">Careers</h3>
+            <p class="mb-4 text-gray-600">Green Career Hub</p>
+            <p class="mb-6 text-sm text-gray-500">Find job listings, connect with eco-friendly companies, and launch your green career path.</p>
+            <a href="/careers/jobs/" class="inline-flex items-center font-semibold text-orange-600 hover:text-orange-700 group/link">
+              Explore
+              <svg class="w-4 h-4 ml-2 transition-transform transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="px-4 py-20 sm:px-6 lg:px-8 bg-gray-50">
+    <div class="mx-auto max-w-7xl">
+      <div class="grid items-center gap-12 md:grid-cols-2">
+        <div class="hidden md:block">
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-300 to-emerald-300 rounded-2xl blur-2xl opacity-30"></div>
+            <div class="relative p-12 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-white rounded-lg shadow">
+                  <div class="text-3xl font-bold text-green-600">99%</div>
+                  <p class="text-sm text-gray-600">Success Rate</p>
+                </div>
+                <div class="p-4 bg-white rounded-lg shadow">
+                  <div class="text-3xl font-bold text-emerald-600">24/7</div>
+                  <p class="text-sm text-gray-600">Support</p>
+                </div>
+                <div class="p-4 bg-white rounded-lg shadow">
+                  <div class="text-3xl font-bold text-teal-600">Global</div>
+                  <p class="text-sm text-gray-600">Community</p>
+                </div>
+                <div class="p-4 bg-white rounded-lg shadow">
+                  <div class="text-3xl font-bold text-green-600">100%</div>
+                  <p class="text-sm text-gray-600">Green Focus</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <h2 class="text-4xl font-bold">About Eco-Nexus</h2>
+          <p class="text-lg text-gray-600">
+            Eco-Nexus is a comprehensive learning and career platform dedicated to environmental sustainability and green education. We bridge the gap between passionate learners and meaningful careers in the environmental sector.
+          </p>
+          <p class="text-lg text-gray-600">
+            Our mission is to empower individuals with knowledge, skills, and opportunities to make a positive impact on our planet. Through our integrated ecosystem of courses, certifications, and job opportunities, we're creating a community of environmental champions.
+          </p>
+          <div class="space-y-3">
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center w-6 h-6 text-white bg-green-500 rounded-md">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-gray-700">Scientifically curated environmental curriculum</p>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center w-6 h-6 text-white bg-green-500 rounded-md">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-gray-700">Industry partnerships and real-world projects</p>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center w-6 h-6 text-white bg-green-500 rounded-md">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+              </div>
+              <p class="text-gray-700">Direct career placement assistance</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="px-4 py-20 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="mb-6 text-4xl font-bold md:text-5xl">Ready to Start Your Green Journey?</h2>
+      <p class="mb-8 text-xl text-gray-600">Join thousands of learners transforming their careers through environmental education.</p>
+      <div class="flex flex-col justify-center gap-4 sm:flex-row">
+        <a href="/ums/courses/" class="inline-flex items-center justify-center px-8 py-4 font-semibold text-white transition-all transform rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:shadow-lg hover:-translate-y-1">
+          Start Learning
+        </a>
+        <a href="/careers/jobs/" class="inline-flex items-center justify-center px-8 py-4 font-semibold text-green-600 transition-all border-2 border-green-600 rounded-lg hover:bg-green-50">
+          View Job Listings
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="px-4 py-12 text-gray-300 bg-gray-900 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="grid gap-8 mb-8 md:grid-cols-4">
+        <!-- Brand -->
+        <div>
+          <h3 class="mb-4 text-lg font-bold text-white">Eco-Nexus</h3>
+          <p class="text-sm text-gray-400">Leading platform for environmental education and green careers.</p>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="mb-4 font-semibold text-white">Modules</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/ums/courses/" class="transition-colors hover:text-green-400">University Management</a></li>
+            <li><a href="/lms/env-courses/" class="transition-colors hover:text-green-400">Environmental Learning</a></li>
+            <li><a href="/careers/jobs/" class="transition-colors hover:text-green-400">Green Careers</a></li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div>
+          <h4 class="mb-4 font-semibold text-white">Resources</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="transition-colors hover:text-green-400">Documentation</a></li>
+            <li><a href="#" class="transition-colors hover:text-green-400">Blog</a></li>
+            <li><a href="#" class="transition-colors hover:text-green-400">FAQ</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+          <h4 class="mb-4 font-semibold text-white">Legal</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="transition-colors hover:text-green-400">Privacy Policy</a></li>
+            <li><a href="#" class="transition-colors hover:text-green-400">Terms of Service</a></li>
+            <li><a href="#" class="transition-colors hover:text-green-400">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-gray-700">
+        <div class="flex flex-col items-center justify-between md:flex-row">
+          <p class="text-sm text-gray-400">&copy; 2024 Eco-Nexus. All rights reserved.</p>
+          <div class="flex mt-4 space-x-6 md:mt-0">
+            <a href="#" class="text-gray-400 transition-colors hover:text-green-400">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8.29 20v-7.21H5.73v-2.57h2.56V9.44c0-2.55 1.55-3.94 3.84-3.94 1.09 0 2.03.08 2.3.12v2.66h-1.58c-1.24 0-1.48.59-1.48 1.45v1.9h2.97l-.39 2.57h-2.58V20"></path>
+              </svg>
+            </a>
+            <a href="#" class="text-gray-400 transition-colors hover:text-green-400">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7"></path>
+              </svg>
+            </a>
+            <a href="#" class="text-gray-400 transition-colors hover:text-green-400">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,302 @@
+/* 
+   Landing Page Custom Styles
+   These are custom CSS animations and styles for the landing page.
+   Add these to your static_src/src/styles.css if you want to enhance further.
+*/
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Gradient Shift Animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-gradient-animated {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+/* Smooth Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Card Hover Effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Glow Effect */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1), translate(-50%, -50%);
+  transform-origin: 50%;
+  animation: ripple 0.6s ease-out;
+}
+
+.btn-glow:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(1), translate(-50%, -50%);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(100), translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+/* Text Gradient Animation */
+@keyframes text-gradient {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+.text-gradient-animate {
+  background: linear-gradient(
+    90deg,
+    #16a34a,
+    #059669,
+    #0d9488,
+    #16a34a
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-gradient 3s linear infinite;
+}
+
+/* Navigation Underline Animation */
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(to right, #16a34a, #059669);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Feature Card Animation */
+.feature-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.feature-card:hover::before {
+  left: 100%;
+}
+
+/* Stats Counter Animation */
+@keyframes count-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stats-item {
+  animation: count-up 0.6s ease-out forwards;
+}
+
+.stats-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.stats-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.stats-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+/* Fade In Animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+/* Staggered Fade In */
+.fade-in-stagger > * {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.fade-in-stagger > *:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.fade-in-stagger > *:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.fade-in-stagger > *:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.fade-in-stagger > *:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.fade-in-stagger > *:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.fade-in-stagger > *:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .animate-float {
+    animation: float 2s ease-in-out infinite;
+  }
+  
+  .nav-link::after {
+    display: none;
+  }
+}
+
+/* Accessibility - Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-float {
+    animation: none;
+    transform: translateY(-5px);
+  }
+}
+
+/* Dark Mode Support (Optional) */
+@media (prefers-color-scheme: dark) {
+  /* Add dark mode styles here if needed */
+  /* body {
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+  } */
+}
+
+/* Print Styles */
+@media print {
+  nav,
+  footer {
+    display: none;
+  }
+  
+  * {
+    box-shadow: none !important;
+  }
+}
+
+/* Focus Visible for Accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #16a34a;
+  outline-offset: 2px;
+}
+
+/* Smooth Transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Link Underline Animation */
+a {
+  position: relative;
+  text-decoration: none;
+}
+
+a:not(.btn):hover {
+  color: #16a34a;
+}

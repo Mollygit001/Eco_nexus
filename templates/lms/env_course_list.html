@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Environmental Courses · LMS{% endblock %}
+{% block content %}
+<h1 class="text-xl font-semibold mb-4">Environmental Courses</h1>
+<ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {% for c in courses %}
+    <li class="p-4 bg-white border rounded">
+      <div class="font-semibold">{{ c.title }}</div>
+      <p class="text-sm text-gray-600">{{ c.description|default:"No description" }}</p>
+      {% if c.related_ums_course %}
+        <p class="text-xs text-gray-500 mt-1">Linked UMS course: {{ c.related_ums_course.code }}</p>
+      {% endif %}
+    </li>
+  {% empty %}
+    <li>No courses available.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

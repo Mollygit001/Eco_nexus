@@ -1,0 +1,364 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Apply for {{ job.title }} - Eco-Nexus{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Breadcrumb -->
+    <nav class="mb-6 text-sm text-gray-600">
+        <a href="{% url 'careers:job_detail' job.id %}" class="text-blue-600 hover:underline">← Back to Job</a>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Form (2/3) -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200">
+                <div class="mb-8">
+                    <h1 class="text-4xl font-bold text-gray-800 mb-2">Apply for {{ job.title }}</h1>
+                    <p class="text-gray-600">{{ job.company_name }} • {{ job.location }}</p>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" class="space-y-6" x-data="formHandler()" @submit.prevent="submitForm">
+                    {% csrf_token %}
+
+                    <!-- Progress Indicator -->
+                    <div class="mb-8">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="font-semibold text-gray-700">Application Progress</h3>
+                            <span class="text-sm text-gray-600" x-text="`${progress}%`">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full transition-all duration-300" :style="`width: ${progress}%`"></div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information Section -->
+                    <div class="border-b border-gray-200 pb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                            <span class="text-2xl">👤</span>
+                            Personal Information
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
+                                <input type="text" value="{{ user.first_name }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" readonly>
+                                <p class="text-xs text-gray-500 mt-1">From your profile</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
+                                <input type="text" value="{{ user.last_name }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" readonly>
+                                <p class="text-xs text-gray-500 mt-1">From your profile</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
+                                <input type="email" value="{{ user.email }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" readonly>
+                                <p class="text-xs text-gray-500 mt-1">From your profile</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
+                                <input 
+                                    type="tel" 
+                                    name="phone_number" 
+                                    placeholder="+1 (555) 123-4567"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                    required
+                                    @input="updateProgress()"
+                                >
+                                {% if form.phone_number.errors %}
+                                <p class="text-red-600 text-xs mt-1">{{ form.phone_number.errors.0 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">LinkedIn Profile</label>
+                            <input 
+                                type="url" 
+                                name="linkedin_profile" 
+                                placeholder="https://linkedin.com/in/yourprofile"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Cover Letter Section -->
+                    <div class="border-b border-gray-200 pb-8 pt-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                            <span class="text-2xl">📝</span>
+                            Cover Letter
+                        </h2>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Tell Us About Yourself *</label>
+                            <textarea 
+                                name="cover_letter" 
+                                rows="8"
+                                placeholder="Explain why you're interested in this position and how your experience matches the role..."
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 font-family-mono text-sm"
+                                required
+                                minlength="100"
+                                maxlength="5000"
+                                @input="updateProgress()"
+                            ></textarea>
+                            {% if form.cover_letter.errors %}
+                            <p class="text-red-600 text-xs mt-1">{{ form.cover_letter.errors.0 }}</p>
+                            {% endif %}
+                            <p class="text-xs text-gray-500 mt-2">
+                                <span class="text-sm font-semibold">Tips:</span>
+                                Show enthusiasm for the role, highlight relevant skills, keep it concise and professional. Minimum 100 characters.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Files Section -->
+                    <div class="border-b border-gray-200 pb-8 pt-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                            <span class="text-2xl">📎</span>
+                            Attachments
+                        </h2>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Resume/CV *</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-green-400 hover:bg-green-50 transition" @dragover.prevent="isDragging = true" @dragleave="isDragging = false" @drop.prevent="handleFileDrop" :class="isDragging && 'border-green-400 bg-green-50'">
+                                <input type="file" name="resume" id="resume" class="hidden" accept=".pdf,.doc,.docx" @change="handleFileSelect" required>
+                                <label for="resume" class="cursor-pointer">
+                                    <div class="text-4xl mb-2">📄</div>
+                                    <p class="font-semibold text-gray-700">Click to upload or drag and drop</p>
+                                    <p class="text-xs text-gray-600 mt-1">PDF, DOC, or DOCX (Max 5MB)</p>
+                                </label>
+                            </div>
+                            <div id="resume-name" class="mt-2 text-sm text-green-600"></div>
+                            {% if form.resume.errors %}
+                            <p class="text-red-600 text-xs mt-1">{{ form.resume.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="mt-6">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Portfolio or Work Samples (Optional)</label>
+                            <input 
+                                type="file" 
+                                name="portfolio" 
+                                accept=".pdf,.zip,.rar"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                            >
+                            <p class="text-xs text-gray-600 mt-2">PDF or ZIP file (Max 10MB)</p>
+                        </div>
+                    </div>
+
+                    <!-- Additional Questions Section -->
+                    <div class="border-b border-gray-200 pb-8 pt-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                            <span class="text-2xl">❓</span>
+                            Additional Questions
+                        </h2>
+
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">What attracted you to this role? *</label>
+                                <select name="attracted_to_role" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required @change="updateProgress()">
+                                    <option value="">Select an option...</option>
+                                    <option value="mission">Company mission and impact</option>
+                                    <option value="role">The role and responsibilities</option>
+                                    <option value="growth">Career growth opportunity</option>
+                                    <option value="team">Team and company culture</option>
+                                    <option value="location">Location and flexibility</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Work authorization status *</label>
+                                <select name="work_authorization" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required @change="updateProgress()">
+                                    <option value="">Select an option...</option>
+                                    <option value="citizen">Citizen</option>
+                                    <option value="permanent_resident">Permanent Resident</option>
+                                    <option value="work_visa">Work Visa Sponsorship Required</option>
+                                    <option value="eligible">Eligible to work</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Available start date *</label>
+                                <input 
+                                    type="date" 
+                                    name="available_start_date" 
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                                    required
+                                    @change="updateProgress()"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agreement Section -->
+                    <div class="pb-8 pt-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                            <span class="text-2xl">✅</span>
+                            Agreement
+                        </h2>
+
+                        <div class="space-y-4">
+                            <label class="flex items-start gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                <input type="checkbox" name="agree_terms" class="mt-1" required @change="updateProgress()">
+                                <span class="text-sm text-gray-700">I agree to the terms and privacy policy and confirm that all information provided is accurate and truthful.</span>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                <input type="checkbox" name="agree_contact" class="mt-1" @change="updateProgress()">
+                                <span class="text-sm text-gray-700">I agree to be contacted by email or phone regarding this application and future opportunities.</span>
+                            </label>
+
+                            <label class="flex items-start gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                <input type="checkbox" name="subscribe_newsletter" class="mt-1">
+                                <span class="text-sm text-gray-700">Subscribe me to job updates and career tips from Eco-Nexus.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex gap-4 pt-8 border-t border-gray-200">
+                        <button type="submit" class="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition flex items-center justify-center gap-2" :disabled="isSubmitting" @click="trackEvent('application_submitted')">
+                            <span x-show="!isSubmitting">🚀 Submit Application</span>
+                            <span x-show="isSubmitting" class="flex items-center gap-2">
+                                <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Submitting...
+                            </span>
+                        </button>
+                        <a href="{% url 'careers:job_detail' job.id %}" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sidebar (1/3) -->
+        <div class="lg:col-span-1">
+            <!-- Job Summary -->
+            <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 sticky top-8 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">📋 Job Summary</h3>
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <p class="text-gray-600">Title</p>
+                        <p class="font-semibold text-gray-800">{{ job.title }}</p>
+                    </div>
+                    <div class="border-t border-gray-200 pt-3">
+                        <p class="text-gray-600">Company</p>
+                        <p class="font-semibold text-gray-800">{{ job.company_name }}</p>
+                    </div>
+                    <div class="border-t border-gray-200 pt-3">
+                        <p class="text-gray-600">Location</p>
+                        <p class="font-semibold text-gray-800">{{ job.location }}</p>
+                    </div>
+                    <div class="border-t border-gray-200 pt-3">
+                        <p class="text-gray-600">Job Type</p>
+                        <p class="font-semibold text-gray-800 capitalize">{{ job.job_type }}</p>
+                    </div>
+                    {% if job.salary_min %}
+                    <div class="border-t border-gray-200 pt-3">
+                        <p class="text-gray-600">Salary Range</p>
+                        <p class="font-semibold text-green-600">${{ job.salary_min|floatformat:0 }}K - ${{ job.salary_max|floatformat:0 }}K</p>
+                    </div>
+                    {% endif %}
+                    <div class="border-t border-gray-200 pt-3">
+                        <p class="text-gray-600">Application Deadline</p>
+                        <p class="font-semibold text-orange-600">{{ job.deadline|date:"M d, Y" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help & Tips -->
+            <div class="bg-blue-50 rounded-lg p-6 border border-blue-300 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">💡 Application Tips</h3>
+                <ul class="space-y-3 text-sm text-gray-700">
+                    <li class="flex gap-2">
+                        <span class="text-lg">✨</span>
+                        <span><strong>Personalize:</strong> Tailor your letter to this specific role</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span class="text-lg">🎯</span>
+                        <span><strong>Be Specific:</strong> Use concrete examples from your experience</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span class="text-lg">🌿</span>
+                        <span><strong>Show Passion:</strong> Highlight your commitment to sustainability</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span class="text-lg">⏰</span>
+                        <span><strong>Don't Wait:</strong> Apply early for better chances</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Estimated Time -->
+            <div class="bg-green-50 rounded-lg p-6 border border-green-300">
+                <h3 class="text-lg font-bold text-gray-800 mb-2">⏱️ Time to Complete</h3>
+                <p class="text-3xl font-bold text-green-600 mb-2">5-10 min</p>
+                <p class="text-sm text-gray-700">Most applications take 5-10 minutes to complete. You can save and come back later.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alpine.js Form Handler -->
+<script>
+function formHandler() {
+    return {
+        progress: 0,
+        isSubmitting: false,
+        isDragging: false,
+
+        updateProgress() {
+            let filled = 0;
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
+            
+            inputs.forEach(input => {
+                if (input.value && (input.type !== 'checkbox' || input.checked)) {
+                    filled++;
+                }
+            });
+            
+            this.progress = Math.round((filled / inputs.length) * 100);
+        },
+
+        handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('resume-name').textContent = '✅ ' + file.name;
+                this.updateProgress();
+            }
+        },
+
+        handleFileDrop(event) {
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('resume').files = files;
+                document.getElementById('resume-name').textContent = '✅ ' + files[0].name;
+                this.isDragging = false;
+                this.updateProgress();
+            }
+        },
+
+        async submitForm() {
+            this.isSubmitting = true;
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            document.querySelector('form').submit();
+        },
+
+        trackEvent(event) {
+            console.log('Tracking event:', event);
+        }
+    }
+}
+</script>
+{% endblock %}

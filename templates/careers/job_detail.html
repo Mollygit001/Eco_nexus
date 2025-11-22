@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ job.title }} - Eco-Nexus Careers{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Breadcrumb -->
+    <nav class="mb-6 text-sm text-gray-600">
+        <a href="{% url 'careers:job_list' %}" class="text-blue-600 hover:underline">← All Jobs</a>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Content (2/3) -->
+        <div class="lg:col-span-2">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-8 mb-8 border border-green-300">
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <h1 class="text-4xl font-bold text-gray-800">{{ job.title }}</h1>
+                            <span class="inline-block bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full capitalize">
+                                {{ job.job_type }}
+                            </span>
+                        </div>
+                        <p class="text-xl text-gray-600 mb-4">{{ job.company_name }}</p>
+                        <div class="flex flex-wrap gap-4 text-sm text-gray-700">
+                            <div class="flex items-center gap-2">
+                                <span>📍</span>
+                                <span>{{ job.location }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span>💰</span>
+                                {% if job.salary_min and job.salary_max %}
+                                <span>${{ job.salary_min|floatformat:0 }}K - ${{ job.salary_max|floatformat:0 }}K/year</span>
+                                {% else %}
+                                <span>Competitive</span>
+                                {% endif %}
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span>📅</span>
+                                <span>Posted {{ job.created_at|date:"M d, Y" }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span>⏰</span>
+                                <span>Deadline: {{ job.deadline|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Description -->
+            <div class="bg-white rounded-lg shadow-md p-8 mb-8 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">📝 About This Role</h2>
+                <div class="prose prose-sm max-w-none text-gray-700">
+                    {{ job.description|linebreaks }}
+                </div>
+            </div>
+
+            <!-- Requirements -->
+            <div class="bg-white rounded-lg shadow-md p-8 mb-8 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">✅ Requirements & Qualifications</h2>
+                <div class="prose prose-sm max-w-none text-gray-700">
+                    {% if job.requirements %}
+                    {{ job.requirements|linebreaks }}
+                    {% else %}
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Bachelor's degree or equivalent experience</li>
+                        <li>2+ years in related field</li>
+                        <li>Strong communication skills</li>
+                        <li>Passion for sustainability</li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Responsibilities -->
+            <div class="bg-white rounded-lg shadow-md p-8 mb-8 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">🎯 Key Responsibilities</h2>
+                <div class="prose prose-sm max-w-none text-gray-700">
+                    {% if job.responsibilities %}
+                    {{ job.responsibilities|linebreaks }}
+                    {% else %}
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Develop and implement project initiatives</li>
+                        <li>Collaborate with cross-functional teams</li>
+                        <li>Monitor project metrics and KPIs</li>
+                        <li>Contribute to organizational goals</li>
+                        <li>Lead team meetings and discussions</li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Benefits -->
+            {% if job.benefits %}
+            <div class="bg-white rounded-lg shadow-md p-8 mb-8 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">🎁 Benefits & Perks</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for benefit in job.benefits.split|slice:":6" %}
+                    <div class="flex items-start gap-3 p-3 bg-green-50 rounded-lg border border-green-200">
+                        <span class="text-xl">✨</span>
+                        <span class="text-gray-700">{{ benefit }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- About Company -->
+            <div class="bg-white rounded-lg shadow-md p-8 mb-8 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">🏢 About the Company</h2>
+                <p class="text-gray-700 mb-4">{{ job.company_name }} is a leading organization in sustainable development and environmental solutions.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center p-4 bg-gray-50 rounded-lg">
+                    <div>
+                        <div class="text-2xl font-bold text-blue-600">500+</div>
+                        <div class="text-sm text-gray-600">Employees</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-green-600">25+</div>
+                        <div class="text-sm text-gray-600">Countries</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-orange-600">4.8★</div>
+                        <div class="text-sm text-gray-600">Rating</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-purple-600">2010</div>
+                        <div class="text-sm text-gray-600">Founded</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Similar Jobs -->
+            {% if similar_jobs %}
+            <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">🔗 Similar Jobs</h2>
+                <div class="space-y-3">
+                    {% for similar_job in similar_jobs|slice:":3" %}
+                    <a href="{% url 'careers:job_detail' similar_job.id %}" class="block p-4 bg-gray-50 rounded-lg border border-gray-200 hover:border-green-400 hover:bg-green-50 transition">
+                        <div class="font-semibold text-gray-800">{{ similar_job.title }}</div>
+                        <div class="text-sm text-gray-600">{{ similar_job.company_name }} • {{ similar_job.location }}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar (1/3) -->
+        <div class="lg:col-span-1">
+            <!-- Apply Card -->
+            <div class="bg-white rounded-lg shadow-md p-8 border border-green-300 sticky top-8 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Ready to Apply?</h3>
+                
+                {% if user.is_authenticated %}
+                    {% if user_applied %}
+                    <div class="mb-4 p-4 bg-green-50 border border-green-300 rounded-lg text-center">
+                        <div class="text-2xl mb-2">✅</div>
+                        <p class="text-sm text-green-800 font-semibold">You've already applied!</p>
+                        <p class="text-xs text-green-700 mt-1">Check your email for updates</p>
+                    </div>
+                    <a href="{% url 'careers:my_applications' %}" class="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition text-center block mb-3">
+                        View My Applications
+                    </a>
+                    {% else %}
+                    <a href="{% url 'careers:apply' job.id %}" class="w-full px-4 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition text-center block mb-3">
+                        Apply Now
+                    </a>
+                    <p class="text-xs text-gray-600">Submit your application in 2 minutes</p>
+                    {% endif %}
+                {% else %}
+                <a href="{% url 'accounts:login' %}" class="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition text-center block mb-3">
+                    Sign In to Apply
+                </a>
+                <p class="text-xs text-gray-600">Need an account? <a href="{% url 'accounts:signup' %}" class="text-blue-600 hover:underline">Sign Up</a></p>
+                {% endif %}
+
+                <div class="border-t border-gray-200 my-4"></div>
+
+                <!-- Share -->
+                <div class="space-y-2">
+                    <button class="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                        <span>📤</span>
+                        Share Job
+                    </button>
+                    <button class="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition flex items-center justify-center gap-2">
+                        <span>❤️</span>
+                        Save Job
+                    </button>
+                </div>
+            </div>
+
+            <!-- Job Stats -->
+            <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">📊 Job Stats</h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="text-sm text-gray-600 mb-1">Total Applications</div>
+                        <div class="text-2xl font-bold text-blue-600">{{ applications_count }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-600 mb-1">Application Rate</div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                        <div class="text-xs text-gray-600 mt-1">75% apply rate</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-600 mb-1">Time to Hire</div>
+                        <div class="text-lg font-semibold text-orange-600">7-10 days avg</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Info -->
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-300">
+                <h3 class="text-lg font-bold text-gray-800 mb-3">💡 Quick Tips</h3>
+                <ul class="space-y-2 text-sm text-gray-700">
+                    <li class="flex gap-2">
+                        <span>✓</span>
+                        <span>Customize your resume for this role</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span>✓</span>
+                        <span>Include specific examples from your experience</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span>✓</span>
+                        <span>Highlight your sustainability passion</span>
+                    </li>
+                    <li class="flex gap-2">
+                        <span>✓</span>
+                        <span>Apply early for better chances</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

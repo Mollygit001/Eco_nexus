@@ -1,0 +1,168 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "eco_employer_alpha",
+      "password": "!",
+      "email": "alpha@example.com",
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "eco_employer_beta",
+      "password": "!",
+      "email": "beta@example.com",
+      "is_active": true
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "username": "eco_employer_gamma",
+      "password": "!",
+      "email": "gamma@example.com",
+      "is_active": true
+    }
+  },
+
+  {
+    "model": "careers.employer",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "company_name": "GreenTech Solutions",
+      "website": "https://www.greentech.example",
+      "verified": true
+    }
+  },
+  {
+    "model": "careers.employer",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "company_name": "EcoVista Analytics",
+      "website": "https://www.ecovista.example",
+      "verified": true
+    }
+  },
+  {
+    "model": "careers.employer",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "company_name": "Sustainify Labs",
+      "website": "https://www.sustainify.example",
+      "verified": false
+    }
+  },
+
+  {
+    "model": "careers.jobposting",
+    "pk": 101,
+    "fields": {
+      "employer": 1,
+      "title": "Renewable Energy Engineer",
+      "role": "Design and optimize solar/wind systems",
+      "location": "Austin, TX (Hybrid)",
+      "salary": "95000.00",
+      "category": "Renewable Energy",
+      "description": "Lead design and optimization of distributed solar arrays and micro-wind installations. Collaborate with cross-functional teams to improve system performance and reduce LCOE."
+    }
+  },
+  {
+    "model": "careers.jobposting",
+    "pk": 102,
+    "fields": {
+      "employer": 1,
+      "title": "Sustainability Program Manager",
+      "role": "Own corporate sustainability roadmap",
+      "location": "Seattle, WA",
+      "salary": "115000.00",
+      "category": "Sustainability",
+      "description": "Develop sustainability initiatives, manage reporting (GRI/SASB), and drive stakeholder engagement to meet net-zero goals by 2035."
+    }
+  },
+  {
+    "model": "careers.jobposting",
+    "pk": 103,
+    "fields": {
+      "employer": 2,
+      "title": "Environmental Data Scientist",
+      "role": "Model climate and emissions datasets",
+      "location": "Remote (US)",
+      "salary": "125000.00",
+      "category": "Data Science",
+      "description": "Build predictive models for air quality, emissions, and resource use. Work with geospatial data (GIS) and produce actionable insights for policy and operations."
+    }
+  },
+  {
+    "model": "careers.jobposting",
+    "pk": 104,
+    "fields": {
+      "employer": 2,
+      "title": "Carbon Accounting Analyst",
+      "role": "Quantify Scope 1–3 emissions",
+      "location": "Chicago, IL",
+      "salary": "88000.00",
+      "category": "Sustainability",
+      "description": "Implement carbon accounting methodologies, automate data pipelines, and support audit-ready reporting across the enterprise."
+    }
+  },
+  {
+    "model": "careers.jobposting",
+    "pk": 105,
+    "fields": {
+      "employer": 3,
+      "title": "Environmental Policy Researcher",
+      "role": "Analyze regulatory impacts",
+      "location": "Washington, DC",
+      "salary": "78000.00",
+      "category": "Policy",
+      "description": "Research evolving environmental regulations, assess impact on industry sectors, and prepare briefings to inform strategic decisions."
+    }
+  },
+  {
+    "model": "careers.jobposting",
+    "pk": 106,
+    "fields": {
+      "employer": 3,
+      "title": "Lifecycle Assessment (LCA) Specialist",
+      "role": "Perform product LCAs and reporting",
+      "location": "San Jose, CA",
+      "salary": "102000.00",
+      "category": "Environmental Engineering",
+      "description": "Conduct cradle-to-grave LCAs for hardware products, identify hotspots, and recommend design improvements to minimize environmental impact."
+    }
+  },
+  {
+    "model": "careers.jobposting",
+    "pk": 107,
+    "fields": {
+      "employer": 1,
+      "title": "Sustainable Supply Chain Analyst",
+      "role": "Optimize supplier ESG performance",
+      "location": "Denver, CO",
+      "salary": "91000.00",
+      "category": "Operations",
+      "description": "Evaluate supplier sustainability metrics, implement improvements, and track progress against ESG targets across the supply chain."
+    }
+  },
+  {
+    "model": "careers.jobposting",
+    "pk": 108,
+    "fields": {
+      "employer": 2,
+      "title": "GIS Analyst (Environmental)",
+      "role": "Build geospatial models and maps",
+      "location": "Portland, OR",
+      "salary": "86000.00",
+      "category": "Data Science",
+      "description": "Use GIS toolsets to visualize land use, habitats, and risk exposure. Support conservation planning and renewable siting decisions."
+    }
+  }
+]

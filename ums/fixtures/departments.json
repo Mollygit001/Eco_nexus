@@ -1,0 +1,82 @@
+[
+  {
+    "model": "ums.department",
+    "pk": 1,
+    "fields": {
+      "name": "Computer Science",
+      "code": "CS"
+    }
+  },
+  {
+    "model": "ums.department",
+    "pk": 2,
+    "fields": {
+      "name": "Environmental Science",
+      "code": "ENVS"
+    }
+  },
+  {
+    "model": "ums.department",
+    "pk": 3,
+    "fields": {
+      "name": "Business Administration",
+      "code": "BUS"
+    }
+  },
+  {
+    "model": "ums.department",
+    "pk": 4,
+    "fields": {
+      "name": "Engineering",
+      "code": "ENG"
+    }
+  },
+  {
+    "model": "ums.department",
+    "pk": 5,
+    "fields": {
+      "name": "Mathematics",
+      "code": "MATH"
+    }
+  },
+  {
+    "model": "ums.department",
+    "pk": 6,
+    "fields": {
+      "name": "Physics",
+      "code": "PHYS"
+    }
+  },
+  {
+    "model": "ums.department",
+    "pk": 7,
+    "fields": {
+      "name": "Chemistry",
+      "code": "CHEM"
+    }
+  },
+  {
+    "model": "ums.department",
+    "pk": 8,
+    "fields": {
+      "name": "Literature & Languages",
+      "code": "LIT"
+    }
+  },
+  {
+    "model": "ums.department",
+    "pk": 9,
+    "fields": {
+      "name": "History & Social Sciences",
+      "code": "HIST"
+    }
+  },
+  {
+    "model": "ums.department",
+    "pk": 10,
+    "fields": {
+      "name": "Art & Design",
+      "code": "ART"
+    }
+  }
+]

@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Quiz: {{ quiz.title }} - Eco-Nexus{% endblock %}
+
+{% block content %}
+<div class="container max-w-4xl px-4 py-8 mx-auto">
+    <!-- Breadcrumb Navigation -->
+    <div class="mb-6 text-sm">
+        <a href="{% url 'lms:course_list' %}" class="text-blue-600 hover:text-blue-800">Courses</a>
+        <span class="mx-2 text-gray-400">/</span>
+        <a href="{% url 'lms:course_detail' course.id %}" class="text-blue-600 hover:text-blue-800">{{ course.title }}</a>
+        <span class="mx-2 text-gray-400">/</span>
+        <a href="{% url 'lms:module_detail' module.id %}" class="text-blue-600 hover:text-blue-800">{{ module.title }}</a>
+        <span class="mx-2 text-gray-400">/</span>
+        <span class="text-gray-600">{{ quiz.title }}</span>
+    </div>
+
+    <!-- Quiz Header -->
+    <div class="p-6 mb-8 border border-green-200 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50">
+        <div class="flex items-start justify-between">
+            <div>
+                <h1 class="mb-2 text-3xl font-bold text-gray-800">{{ quiz.title }}</h1>
+                <p class="text-gray-600">{{ quiz.description }}</p>
+                <div class="flex gap-6 mt-4">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 1 1 0 000 2 1 1 0 100 2H3a1 1 0 01-1-1V4a1 1 0 011-1h1zm12 0a1 1 0 100 2 1 1 0 000-2zm-2 0a2 2 0 014 0 1 1 0 100-2 2 2 0 00-4 0zM4 13a1 1 0 011-1h2a1 1 0 110 2H5a1 1 0 01-1-1zm12-1a1 1 0 100 2h2a1 1 0 100-2h-2z"></path>
+                        </svg>
+                        <span class="font-semibold text-gray-700">{{ questions_count }} Questions</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"></path>
+                        </svg>
+                        <span class="font-semibold text-gray-700">Difficulty: <span class="text-orange-600 capitalize">{{ quiz.difficulty }}</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-4xl font-bold text-green-600">{{ questions_count }}</div>
+                <div class="text-gray-600">Total Questions</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Instructions -->
+    <div class="p-4 mb-8 border-l-4 border-blue-600 rounded bg-blue-50">
+        <h3 class="mb-2 font-semibold text-blue-900">📋 Instructions:</h3>
+        <ul class="ml-4 space-y-1 text-blue-800 list-disc">
+            <li>Answer all {{ questions_count }} questions</li>
+            <li>Each correct answer earns 10 points</li>
+            <li>You can review your answers before submitting</li>
+            <li>This quiz can be retaken</li>
+        </ul>
+    </div>
+
+    <!-- Quiz Form -->
+    <form method="post" class="space-y-6" id="quizForm">
+        {% csrf_token %}
+
+        <!-- Questions -->
+        {% for question in questions %}
+        <div class="p-6 transition bg-white border border-gray-200 rounded-lg shadow-md hover:border-green-400">
+            <!-- Question Number and Text -->
+            <div class="mb-4">
+                <div class="mb-2 text-sm font-semibold text-gray-500">
+                    Question {{ forloop.counter }} of {{ questions_count }}
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800">{{ question.text }}</h3>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full h-1 mb-6 bg-gray-200 rounded-full">
+                <div class="h-1 bg-green-600 rounded-full" style="width: 65%;"></div>
+            </div>
+
+            <!-- Answer Choices -->
+            <div class="space-y-3">
+                {% for choice in question.choices.all %}
+                <label class="flex items-center p-3 transition border-2 border-gray-200 rounded-lg cursor-pointer hover:bg-green-50 hover:border-green-400">
+                    <input 
+                        type="radio" 
+                        name="question_{{ question.id }}" 
+                        value="{{ choice.id }}"
+                        class="w-4 h-4 text-green-600 cursor-pointer"
+                    >
+                    <span class="ml-3 font-medium text-gray-700">{{ choice.text }}</span>
+                </label>
+                {% endfor %}
+            </div>
+
+            <!-- Validation Message -->
+            <div id="error_{{ question.id }}" class="hidden mt-2 text-sm text-red-600">
+                ⚠️ Please select an answer
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Form Actions -->
+        <div class="sticky bottom-0 flex gap-4 p-4 mt-8 bg-white border-t-2 border-green-600 rounded-lg shadow-lg">
+            <a href="{% url 'lms:module_detail' module.id %}" class="flex-1 px-6 py-3 font-semibold text-center text-gray-800 transition bg-gray-300 rounded-lg hover:bg-gray-400">
+                ← Back to Module
+            </a>
+            <button 
+                type="submit" 
+                class="flex items-center justify-center flex-1 gap-2 px-6 py-3 font-semibold text-white transition bg-green-600 rounded-lg hover:bg-green-700"
+                id="submitBtn"
+            >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path>
+                </svg>
+                Submit Quiz ({{ questions_count }} questions)
+            </button>
+        </div>
+    </form>
+
+    <!-- Unsaved Changes Warning -->
+    <div class="hidden p-4 mt-4 text-yellow-800 border border-yellow-200 rounded-lg bg-yellow-50" id="unsavedWarning">
+        <strong>⚠️ You have unsaved answers!</strong> Click "Submit Quiz" to save your progress.
+    </div>
+</div>
+
+<script>
+    // Track unsaved changes
+    const form = document.getElementById('quizForm');
+    const unsavedWarning = document.getElementById('unsavedWarning');
+    let hasChanges = false;
+
+    form.addEventListener('change', function() {
+        hasChanges = true;
+        unsavedWarning.classList.remove('hidden');
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Validate all questions answered
+        let allAnswered = true;
+        const radioGroups = document.querySelectorAll('input[type="radio"]');
+        const questionIds = new Set();
+        
+        // Collect all unique question IDs
+        radioGroups.forEach(radio => {
+            const match = radio.name.match(/question_(\d+)/);
+            if (match) {
+                questionIds.add(match[1]);
+            }
+        });
+        
+        // Check each question has an answer
+        questionIds.forEach(questionId => {
+            const checked = document.querySelector(`input[name="question_${questionId}"]:checked`);
+            if (!checked) {
+                allAnswered = false;
+                document.getElementById(`error_${questionId}`).classList.remove('hidden');
+            } else {
+                document.getElementById(`error_${questionId}`).classList.add('hidden');
+            }
+        });
+
+        if (!allAnswered) {
+            alert('Please answer all questions before submitting.');
+            return;
+        }
+
+        // Show loading state
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Submitting...';
+        submitBtn.disabled = true;
+
+        // Submit form
+        form.submit();
+    });
+
+    // Warn on page leave if changes made
+    window.addEventListener('beforeunload', function(e) {
+        if (hasChanges && !form.submitted) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+
+    // Highlight current question on scroll
+    const questions = document.querySelectorAll('[id^="error_"]').parentElement;
+    window.addEventListener('scroll', function() {
+        document.querySelectorAll('div.p-6.transition').forEach(q => {
+            const rect = q.getBoundingClientRect();
+            if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
+                q.classList.add('ring-2', 'ring-green-400');
+            } else {
+                q.classList.remove('ring-2', 'ring-green-400');
+            }
+        });
+    });
+</script>
+
+<style>
+    input[type="radio"]:checked + span {
+        color: #059669;
+        font-weight: 600;
+    }
+    
+    label:has(input[type="radio"]:checked) {
+        @apply bg-green-50 border-green-400 border-2;
+    }
+</style>
+{% endblock %}

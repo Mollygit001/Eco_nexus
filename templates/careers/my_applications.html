@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Applications - Eco-Nexus Careers{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Page Header -->
+    <div class="mb-12">
+        <h1 class="text-5xl font-bold text-gray-800 mb-4">📋 My Applications</h1>
+        <p class="text-xl text-gray-600">Track your job applications and stay updated on their status</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white rounded-lg shadow-md p-6 border border-blue-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Total Applications</p>
+                    <p class="text-4xl font-bold text-blue-600">{{ total_applications }}</p>
+                </div>
+                <span class="text-5xl">📤</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-yellow-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Pending Review</p>
+                    <p class="text-4xl font-bold text-yellow-600">{{ pending_count }}</p>
+                </div>
+                <span class="text-5xl">⏳</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-green-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Accepted</p>
+                    <p class="text-4xl font-bold text-green-600">{{ accepted_count }}</p>
+                </div>
+                <span class="text-5xl">✅</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-red-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Rejected</p>
+                    <p class="text-4xl font-bold text-red-600">{{ rejected_count }}</p>
+                </div>
+                <span class="text-5xl">❌</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters & Search -->
+    <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-8">
+        <form method="get" class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1">
+                <input 
+                    type="text" 
+                    name="search" 
+                    placeholder="Search by job title or company..." 
+                    value="{{ request.GET.search }}"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
+            <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="accepted">Accepted</option>
+                <option value="rejected">Rejected</option>
+                <option value="withdrawn">Withdrawn</option>
+            </select>
+            <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition whitespace-nowrap">
+                Filter
+            </button>
+        </form>
+    </div>
+
+    <!-- Applications List -->
+    {% if applications %}
+    <div class="space-y-4 mb-12">
+        {% for application in applications %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:border-blue-400 hover:shadow-lg transition">
+            <div class="p-6">
+                <!-- Header -->
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h3 class="text-2xl font-bold text-gray-800">{{ application.job.title }}</h3>
+                            <!-- Status Badge -->
+                            <span class="px-3 py-1 rounded-full text-xs font-bold {% if application.status == 'accepted' %}bg-green-100 text-green-800{% elif application.status == 'rejected' %}bg-red-100 text-red-800{% elif application.status == 'withdrawn' %}bg-gray-100 text-gray-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                {% if application.status == 'accepted' %}
+                                    ✅ Accepted
+                                {% elif application.status == 'rejected' %}
+                                    ❌ Rejected
+                                {% elif application.status == 'withdrawn' %}
+                                    🚫 Withdrawn
+                                {% else %}
+                                    ⏳ {{ application.status|title }}
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <p class="text-gray-600 mb-3">{{ application.job.company_name }}</p>
+
+                        <!-- Meta Info -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-gray-600">
+                            <div class="flex items-center gap-2">
+                                <span>📍</span>
+                                <span>{{ application.job.location }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span>📅</span>
+                                <span>Applied {{ application.created_at|timesince }} ago</span>
+                            </div>
+                            {% if application.job.salary_min %}
+                            <div class="flex items-center gap-2">
+                                <span>💰</span>
+                                <span>${{ application.job.salary_min|floatformat:0 }}K - ${{ application.job.salary_max|floatformat:0 }}K</span>
+                            </div>
+                            {% endif %}
+                            <div class="flex items-center gap-2">
+                                <span>📧</span>
+                                <span>Applied on {{ application.created_at|date:"M d, Y" }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status Timeline -->
+                    <div class="w-full md:w-48 flex-shrink-0">
+                        <div class="bg-gray-50 rounded-lg p-4 text-center">
+                            {% if application.status == 'accepted' %}
+                            <div class="text-4xl mb-2">🎉</div>
+                            <p class="font-bold text-green-600">Congratulations!</p>
+                            <p class="text-xs text-gray-600 mt-1">You've been accepted</p>
+                            {% elif application.status == 'rejected' %}
+                            <div class="text-4xl mb-2">😔</div>
+                            <p class="font-bold text-red-600">Not Selected</p>
+                            <p class="text-xs text-gray-600 mt-1">Keep trying!</p>
+                            {% elif application.status == 'withdrawn' %}
+                            <div class="text-4xl mb-2">🚫</div>
+                            <p class="font-bold text-gray-600">Withdrawn</p>
+                            <p class="text-xs text-gray-600 mt-1">You withdrew this application</p>
+                            {% else %}
+                            <div class="text-4xl mb-2">⏳</div>
+                            <p class="font-bold text-yellow-600">Under Review</p>
+                            <p class="text-xs text-gray-600 mt-1">Waiting for response</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar (for pending applications) -->
+                {% if application.status == 'pending' %}
+                <div class="mb-4 pt-4 border-t border-gray-200">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="text-sm font-semibold text-gray-700">Typical review timeline</p>
+                        <p class="text-sm text-gray-600">Day 7-14</p>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-blue-600 h-2 rounded-full" style="width: 45%"></div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Expandable Details -->
+                <div x-data="{ open: false }" class="border-t border-gray-200 pt-4">
+                    <button @click="open = !open" class="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm">
+                        <span x-show="!open">▶️</span>
+                        <span x-show="open">▼</span>
+                        <span x-show="!open">View Details</span>
+                        <span x-show="open">Hide Details</span>
+                    </button>
+
+                    <div x-show="open" class="mt-4 space-y-4 p-4 bg-gray-50 rounded-lg" x-cloak>
+                        <!-- Application Details -->
+                        {% if application.cover_letter %}
+                        <div>
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Your Cover Letter</p>
+                            <p class="text-sm text-gray-600 bg-white p-3 rounded border border-gray-200">{{ application.cover_letter }}</p>
+                        </div>
+                        {% endif %}
+
+                        <!-- Interview/Feedback -->
+                        {% if application.interview_date %}
+                        <div class="p-4 bg-green-50 border border-green-300 rounded-lg">
+                            <p class="font-semibold text-green-800 mb-2">📅 Interview Scheduled</p>
+                            <p class="text-sm text-green-700">{{ application.interview_date|date:"F d, Y g:i A" }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if application.feedback %}
+                        <div class="p-4 bg-blue-50 border border-blue-300 rounded-lg">
+                            <p class="font-semibold text-blue-800 mb-2">💬 Feedback from Employer</p>
+                            <p class="text-sm text-blue-700">{{ application.feedback }}</p>
+                        </div>
+                        {% endif %}
+
+                        <!-- Actions -->
+                        <div class="flex gap-3 pt-4 border-t border-gray-200">
+                            <a href="{% url 'careers:job_detail' application.job.id %}" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition text-center">
+                                View Job Posting
+                            </a>
+                            {% if application.status == 'pending' %}
+                            <form method="post" action="{% url 'careers:withdraw_application' application.id %}" style="flex: 1;">
+                                {% csrf_token %}
+                                <button type="submit" class="w-full px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition" onclick="return confirm('Are you sure you want to withdraw this application?')">
+                                    Withdraw
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="flex justify-center gap-2 mb-12">
+        {% if page_obj.has_previous %}
+        <a href="?page=1" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Previous</a>
+        {% endif %}
+
+        <div class="flex items-center gap-1">
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <span class="px-4 py-2 bg-blue-600 text-white rounded-lg">{{ num }}</span>
+            {% else %}
+            <a href="?page={{ num }}" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Last</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="bg-white rounded-lg shadow-md p-12 text-center border border-gray-200">
+        <div class="text-6xl mb-4">📭</div>
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">No Applications Yet</h3>
+        <p class="text-gray-600 mb-6">Start your job search and apply to positions you're interested in!</p>
+        <a href="{% url 'careers:job_list' %}" class="inline-block px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">
+            Browse Jobs
+        </a>
+    </div>
+    {% endif %}
+
+    <!-- Help Section -->
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-blue-50 rounded-lg p-6 border border-blue-300">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">❓ Application Timeline</h3>
+            <p class="text-sm text-gray-700">
+                Most employers review applications within 7-14 days. Some may take longer depending on the position. 
+                <a href="#" class="text-blue-600 hover:underline">Learn more</a>
+            </p>
+        </div>
+
+        <div class="bg-green-50 rounded-lg p-6 border border-green-300">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">💡 Pro Tips</h3>
+            <ul class="text-sm text-gray-700 space-y-2">
+                <li>✓ Apply early for better chances</li>
+                <li>✓ Customize your application for each role</li>
+                <li>✓ Follow up after 2 weeks</li>
+            </ul>
+        </div>
+
+        <div class="bg-orange-50 rounded-lg p-6 border border-orange-300">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">🚀 Keep Applying</h3>
+            <p class="text-sm text-gray-700">
+                Don't get discouraged! It typically takes 5-10 applications to land an interview. 
+                <a href="{% url 'careers:job_list' %}" class="text-orange-600 hover:underline font-semibold">Browse more jobs</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Alpine.js for interactivity -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+{% endblock %}

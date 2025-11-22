@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Employer Dashboard - Eco-Nexus Careers{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Welcome Header -->
+    <div class="mb-12">
+        <h1 class="text-5xl font-bold text-gray-800 mb-2">👔 Employer Dashboard</h1>
+        <p class="text-xl text-gray-600">Manage job postings and applicants</p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white rounded-lg shadow-md p-6 border border-blue-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Active Jobs</p>
+                    <p class="text-4xl font-bold text-blue-600">{{ active_jobs_count }}</p>
+                </div>
+                <span class="text-5xl">📊</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-purple-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Total Applicants</p>
+                    <p class="text-4xl font-bold text-purple-600">{{ total_applicants }}</p>
+                </div>
+                <span class="text-5xl">👥</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-green-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">This Week</p>
+                    <p class="text-4xl font-bold text-green-600">{{ week_applications }}</p>
+                </div>
+                <span class="text-5xl">📈</span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border border-orange-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-600 text-sm mb-1">Pending Review</p>
+                    <p class="text-4xl font-bold text-orange-600">{{ pending_applications }}</p>
+                </div>
+                <span class="text-5xl">⏳</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left Column: Job Postings -->
+        <div class="lg:col-span-2">
+            <!-- Post New Job CTA -->
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6 mb-8 border border-green-300">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">🆕 Post a New Job</h2>
+                <p class="text-gray-600 mb-4">Reach qualified environmental professionals</p>
+                <a href="{% url 'careers:post_job' %}" class="inline-block px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">
+                    Post Job Now
+                </a>
+            </div>
+
+            <!-- Job Postings List -->
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <h2 class="text-2xl font-bold text-gray-800">📋 Your Job Postings</h2>
+                </div>
+
+                <div class="divide-y divide-gray-200">
+                    {% if jobs %}
+                    {% for job in jobs %}
+                    <div class="p-6 hover:bg-gray-50 transition cursor-pointer" @click="openJobDetail({{ job.id }})">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold text-gray-800 mb-1">{{ job.title }}</h3>
+                                <p class="text-gray-600 text-sm">{{ job.location }}</p>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4 mb-4 text-sm">
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <span>👥</span>
+                                <span><strong>{{ job.applications_count }}</strong> applications</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <span>⏰</span>
+                                <span>Posted {{ job.created_at|timesince }} ago</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-gray-600">
+                                <span>⏱️</span>
+                                <span>Closes in {{ job.deadline|timesince }} </span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <a href="{% url 'careers:job_applicants' job.id %}" class="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition">
+                                View Applicants ({{ job.applications_count }})
+                            </a>
+                            <a href="{% url 'careers:edit_job' job.id %}" class="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition">
+                                Edit
+                            </a>
+                            <a href="{% url 'careers:share_job' job.id %}" class="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition">
+                                Share
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="p-12 text-center text-gray-600">
+                        <div class="text-5xl mb-3">📭</div>
+                        <p>No active job postings. <a href="{% url 'careers:post_job' %}" class="text-blue-600 hover:underline">Post your first job</a></p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Quick Access & Stats -->
+        <div class="lg:col-span-1">
+            <!-- Recent Applicants -->
+            <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span>⭐</span>
+                    Recent Applicants
+                </h3>
+
+                <div class="space-y-3">
+                    {% for applicant in recent_applicants|slice:":5" %}
+                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-blue-400 cursor-pointer transition">
+                        <div class="flex items-center justify-between mb-1">
+                            <p class="font-semibold text-gray-800 text-sm">{{ applicant.user.get_full_name }}</p>
+                            <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">New</span>
+                        </div>
+                        <p class="text-xs text-gray-600">{{ applicant.job.title }}</p>
+                        <p class="text-xs text-gray-500 mt-1">Applied {{ applicant.created_at|timesince }} ago</p>
+                    </div>
+                    {% empty %}
+                    <p class="text-sm text-gray-600 text-center py-4">No recent applicants</p>
+                    {% endfor %}
+                </div>
+
+                <a href="{% url 'careers:all_applicants' %}" class="block mt-4 text-center text-blue-600 hover:underline text-sm font-semibold">
+                    View All Applicants
+                </a>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200 mb-8">
+                <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <span>⚡</span>
+                    Quick Actions
+                </h3>
+
+                <div class="space-y-2">
+                    <a href="{% url 'careers:post_job' %}" class="block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-center font-semibold text-sm">
+                        Post New Job
+                    </a>
+                    <a href="{% url 'careers:profile' %}" class="block px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition text-center text-sm">
+                        Edit Company Profile
+                    </a>
+                    <a href="{% url 'careers:billing' %}" class="block px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition text-center text-sm">
+                        Billing & Subscription
+                    </a>
+                </div>
+            </div>
+
+            <!-- Application Status Breakdown -->
+            <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">📊 Application Status</h3>
+                <div class="space-y-3">
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm text-gray-600">Pending</span>
+                            <span class="text-sm font-bold text-gray-800">{{ pending_applications }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-600 h-2 rounded-full" style="width: 45%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm text-gray-600">Reviewed</span>
+                            <span class="text-sm font-bold text-gray-800">{{ reviewed_applications }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-blue-600 h-2 rounded-full" style="width: 30%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm text-gray-600">Interviewed</span>
+                            <span class="text-sm font-bold text-gray-800">{{ interviewed_applications }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-purple-600 h-2 rounded-full" style="width: 15%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-sm text-gray-600">Hired</span>
+                            <span class="text-sm font-bold text-gray-800">{{ hired_applications }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-600 h-2 rounded-full" style="width: 10%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="mt-12 bg-white rounded-lg shadow-md p-6 border border-gray-200">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">📝 Recent Activity</h2>
+
+        <div class="space-y-4">
+            <div class="flex gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <span class="text-2xl">📤</span>
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-800">New application received</p>
+                    <p class="text-sm text-gray-600">John Smith applied for Senior Environmental Scientist • 2 hours ago</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <span class="text-2xl">✅</span>
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-800">Candidate hired</p>
+                    <p class="text-sm text-gray-600">Jane Doe has been hired for Sustainability Manager • 1 day ago</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <span class="text-2xl">📅</span>
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-800">Job posting expires soon</p>
+                    <p class="text-sm text-gray-600">Environmental Consultant position expires in 3 days</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <span class="text-2xl">🎯</span>
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-800">New job posted</p>
+                    <p class="text-sm text-gray-600">Green Building Analyst position is now live • 2 days ago</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tips & Resources -->
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-blue-50 rounded-lg p-6 border border-blue-300">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">💡 Recruitment Tips</h3>
+            <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex gap-2">
+                    <span>✓</span>
+                    <span>Write clear job descriptions to attract right candidates</span>
+                </li>
+                <li class="flex gap-2">
+                    <span>✓</span>
+                    <span>Respond to applications within 48 hours</span>
+                </li>
+                <li class="flex gap-2">
+                    <span>✓</span>
+                    <span>Schedule interviews promptly</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-green-50 rounded-lg p-6 border border-green-300">
+            <h3 class="text-lg font-bold text-gray-800 mb-3">📞 Support & Resources</h3>
+            <p class="text-sm text-gray-700 mb-3">Need help with hiring? Our team is here to assist!</p>
+            <a href="#" class="inline-block px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition">
+                Contact Support
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Alpine.js for interactivity -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script>
+function dashboardData() {
+    return {
+        openJobDetail(jobId) {
+            // Navigate to job applicants page
+            window.location.href = `/careers/jobs/${jobId}/applicants/`;
+        }
+    }
+}
+</script>
+{% endblock %}

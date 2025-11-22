@@ -1,0 +1,197 @@
+[
+  {
+    "model": "ums.course",
+    "pk": 1,
+    "fields": {
+      "department": 1,
+      "title": "Introduction to Computer Science",
+      "code": "CS101",
+      "description": "Fundamentals of programming and algorithmic thinking.",
+      "credits": 3,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 2,
+    "fields": {
+      "department": 1,
+      "title": "Data Structures and Algorithms",
+      "code": "CS201",
+      "description": "Advanced data structures, algorithm analysis, and design patterns.",
+      "credits": 4,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 3,
+    "fields": {
+      "department": 2,
+      "title": "Ecology and Conservation",
+      "code": "ENVS101",
+      "description": "Introduction to ecosystem dynamics and conservation strategies.",
+      "credits": 3,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 4,
+    "fields": {
+      "department": 2,
+      "title": "Environmental Chemistry",
+      "code": "ENVS201",
+      "description": "Chemical processes in the environment and pollution control.",
+      "credits": 4,
+      "semester": 2,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 5,
+    "fields": {
+      "department": 3,
+      "title": "Business Fundamentals",
+      "code": "BUS101",
+      "description": "Introduction to business concepts, management, and entrepreneurship.",
+      "credits": 3,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 6,
+    "fields": {
+      "department": 3,
+      "title": "Financial Accounting",
+      "code": "BUS202",
+      "description": "Principles of accounting, financial statements, and analysis.",
+      "credits": 3,
+      "semester": 2,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 7,
+    "fields": {
+      "department": 4,
+      "title": "Engineering Mechanics",
+      "code": "ENG101",
+      "description": "Statics, dynamics, and mechanics of materials.",
+      "credits": 4,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 8,
+    "fields": {
+      "department": 5,
+      "title": "Calculus I",
+      "code": "MATH101",
+      "description": "Limits, derivatives, integration, and applications.",
+      "credits": 4,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 9,
+    "fields": {
+      "department": 6,
+      "title": "General Physics I",
+      "code": "PHYS101",
+      "description": "Mechanics, thermodynamics, and wave phenomena.",
+      "credits": 4,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 10,
+    "fields": {
+      "department": 7,
+      "title": "General Chemistry",
+      "code": "CHEM101",
+      "description": "Atomic structure, bonding, reactions, and stoichiometry.",
+      "credits": 4,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 11,
+    "fields": {
+      "department": 8,
+      "title": "World Literature Survey",
+      "code": "LIT101",
+      "description": "Major literary works from diverse cultures and time periods.",
+      "credits": 3,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 12,
+    "fields": {
+      "department": 9,
+      "title": "Western Civilization",
+      "code": "HIST101",
+      "description": "History of Europe from ancient times to the modern era.",
+      "credits": 3,
+      "semester": 2,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 13,
+    "fields": {
+      "department": 10,
+      "title": "Digital Art Fundamentals",
+      "code": "ART101",
+      "description": "Digital design, animation, and multimedia production basics.",
+      "credits": 3,
+      "semester": 1,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 14,
+    "fields": {
+      "department": 1,
+      "title": "Web Development",
+      "code": "CS301",
+      "description": "Front-end and back-end web technologies and frameworks.",
+      "credits": 3,
+      "semester": 2,
+      "instructor": null
+    }
+  },
+  {
+    "model": "ums.course",
+    "pk": 15,
+    "fields": {
+      "department": 5,
+      "title": "Linear Algebra",
+      "code": "MATH201",
+      "description": "Vectors, matrices, eigenvalues, and applications.",
+      "credits": 3,
+      "semester": 2,
+      "instructor": null
+    }
+  }
+]

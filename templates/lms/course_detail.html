@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ course.title }} - Eco-Nexus LMS{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Breadcrumb -->
+    <div class="mb-6 text-sm">
+        <a href="{% url 'lms:course_list' %}" class="text-blue-600 hover:text-blue-800">Environmental Courses</a>
+        <span class="mx-2 text-gray-400">/</span>
+        <span class="text-gray-600">{{ course.title }}</span>
+    </div>
+
+    <!-- Course Header -->
+    <div class="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg p-8 mb-8">
+        <h1 class="text-4xl font-bold mb-2">{{ course.title }}</h1>
+        <p class="text-green-100 text-lg mb-4">{{ course.description }}</p>
+        <div class="flex gap-6">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">📚</span>
+                <div>
+                    <div class="text-sm text-green-200">Modules</div>
+                    <div class="text-xl font-bold">{{ modules_count }}</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">📖</span>
+                <div>
+                    <div class="text-sm text-green-200">Lessons</div>
+                    <div class="text-xl font-bold">{{ lesson_count }}</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">⭐</span>
+                <div>
+                    <div class="text-sm text-green-200">Level</div>
+                    <div class="text-xl font-bold capitalize">{{ course.level }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related UMS Course (if exists) -->
+    {% if related_ums_course %}
+    <div class="mb-8 bg-blue-50 border-l-4 border-blue-600 p-4 rounded">
+        <h3 class="font-semibold text-blue-900 mb-2">🎓 Related University Course</h3>
+        <p class="text-blue-800 mb-3">This learning path is related to:</p>
+        <div class="bg-white rounded p-4 border border-blue-200">
+            <h4 class="font-bold text-gray-800 mb-2">{{ related_ums_course.title }} ({{ related_ums_course.code }})</h4>
+            <p class="text-gray-600 text-sm mb-3">{{ related_ums_course.description }}</p>
+            <a href="{% url 'ums:course_detail' related_ums_course.id %}" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">
+                View University Course →
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Course Overview -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">📋 Course Overview</h2>
+                <div class="text-gray-700 space-y-3 leading-relaxed">
+                    {% if course.course_objectives %}
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Learning Objectives</h3>
+                        <p>{{ course.course_objectives }}</p>
+                    </div>
+                    {% endif %}
+                    
+                    {% if course.target_audience %}
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Target Audience</h3>
+                        <p>{{ course.target_audience }}</p>
+                    </div>
+                    {% endif %}
+
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">Duration</h3>
+                        <p>Approximately 4-6 weeks of self-paced learning</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules Section -->
+            <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">📚 Course Modules</h2>
+                
+                {% if modules %}
+                <div class="space-y-4">
+                    {% for module in modules %}
+                    <div class="border border-gray-200 rounded-lg hover:border-green-400 hover:shadow-md transition p-4">
+                        <div class="flex items-start justify-between mb-3">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">
+                                        Module {{ forloop.counter }}
+                                    </span>
+                                    <span class="text-xs text-gray-500">{{ module.contents.count }} lessons</span>
+                                </div>
+                                <h3 class="text-lg font-semibold text-gray-800">{{ module.title }}</h3>
+                            </div>
+                            <a href="{% url 'lms:module_detail' module.id %}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition font-semibold whitespace-nowrap">
+                                Start
+                            </a>
+                        </div>
+                        
+                        {% if module.description %}
+                        <p class="text-gray-600 text-sm mb-3">{{ module.description }}</p>
+                        {% endif %}
+
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <span class="text-lg">📖</span>
+                                <span>{{ module.contents.count }} lessons</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-gray-600">
+                                <span class="text-lg">🎯</span>
+                                <span>{{ module.quizzes.count }} quizzes</span>
+                            </div>
+                        </div>
+
+                        <!-- Lessons Preview -->
+                        {% if module.contents.all %}
+                        <details class="text-sm">
+                            <summary class="cursor-pointer text-gray-600 hover:text-gray-800 font-semibold">
+                                View lessons ▼
+                            </summary>
+                            <ul class="mt-3 ml-4 space-y-1 text-gray-600">
+                                {% for lesson in module.contents.all %}
+                                <li class="flex items-center gap-2">
+                                    <span class="text-gray-400">→</span>
+                                    <span>{{ lesson.title }}</span>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded capitalize">
+                                        {{ lesson.content_type|default:"Text" }}
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </details>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-8 text-gray-500">
+                    <p>No modules available yet. Check back soon!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+            <!-- Course Stats -->
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-6 border border-green-200 mb-6">
+                <h3 class="font-bold text-gray-800 mb-4">📊 Course Stats</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center py-2 border-b border-green-200">
+                        <span class="text-gray-600">Level</span>
+                        <span class="font-semibold text-gray-800 capitalize">{{ course.level }}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-green-200">
+                        <span class="text-gray-600">Modules</span>
+                        <span class="font-semibold text-gray-800">{{ modules_count }}</span>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-gray-600">Lessons</span>
+                        <span class="font-semibold text-gray-800">{{ lesson_count }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action -->
+            <div class="bg-blue-50 rounded-lg p-6 border border-blue-200 mb-6">
+                <h3 class="font-bold text-gray-800 mb-4">🚀 Get Started</h3>
+                <p class="text-gray-700 text-sm mb-4">Ready to learn? Start with the first module!</p>
+                {% if modules %}
+                <a href="{% url 'lms:module_detail' modules.0.id %}" class="block w-full bg-blue-600 text-white rounded-lg py-2 text-center font-semibold hover:bg-blue-700 transition">
+                    Start First Module
+                </a>
+                {% else %}
+                <button disabled class="block w-full bg-gray-400 text-gray-200 rounded-lg py-2 text-center font-semibold cursor-not-allowed">
+                    No Modules Available
+                </button>
+                {% endif %}
+            </div>
+
+            <!-- Tips -->
+            <div class="bg-yellow-50 rounded-lg p-6 border border-yellow-200">
+                <h3 class="font-bold text-gray-800 mb-3">💡 Tips for Success</h3>
+                <ul class="text-sm text-gray-700 space-y-2">
+                    <li class="flex items-start gap-2">
+                        <span class="text-yellow-600 font-bold">✓</span>
+                        <span>Complete modules in order</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-yellow-600 font-bold">✓</span>
+                        <span>Take the quizzes to test your knowledge</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-yellow-600 font-bold">✓</span>
+                        <span>Retake quizzes to improve your score</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-yellow-600 font-bold">✓</span>
+                        <span>Earn points and badges!</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex gap-4 justify-center mt-12">
+        <a href="{% url 'lms:course_list' %}" class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">
+            ← Back to Courses
+        </a>
+        <a href="{% url 'lms:dashboard' %}" class="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">
+            📊 My Dashboard
+        </a>
+    </div>
+</div>
+
+<style>
+    details > summary::-webkit-details-marker {
+        display: none;
+    }
+    
+    summary::before {
+        content: "▶ ";
+        display: inline-block;
+        margin-right: 0.25rem;
+        transition: transform 0.2s;
+    }
+    
+    details[open] summary::before {
+        transform: rotate(90deg);
+    }
+</style>
+{% endblock %}

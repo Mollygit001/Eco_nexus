@@ -1,0 +1,242 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "alice.smith",
+      "first_name": "Alice",
+      "last_name": "Smith",
+      "email": "alice.smith@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "username": "bob.johnson",
+      "first_name": "Bob",
+      "last_name": "Johnson",
+      "email": "bob.johnson@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "username": "carol.brown",
+      "first_name": "Carol",
+      "last_name": "Brown",
+      "email": "carol.brown@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "username": "david.wilson",
+      "first_name": "David",
+      "last_name": "Wilson",
+      "email": "david.wilson@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "username": "emma.davis",
+      "first_name": "Emma",
+      "last_name": "Davis",
+      "email": "emma.davis@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+      "username": "frank.miller",
+      "first_name": "Frank",
+      "last_name": "Miller",
+      "email": "frank.miller@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": true,
+      "is_active": true,
+      "is_superuser": true,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+      "username": "grace.lee",
+      "first_name": "Grace",
+      "last_name": "Lee",
+      "email": "grace.lee@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": true,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+      "username": "henry.taylor",
+      "first_name": "Henry",
+      "last_name": "Taylor",
+      "email": "henry.taylor@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 9,
+    "fields": {
+      "username": "iris.martin",
+      "first_name": "Iris",
+      "last_name": "Martin",
+      "email": "iris.martin@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 10,
+    "fields": {
+      "username": "jack.anderson",
+      "first_name": "Jack",
+      "last_name": "Anderson",
+      "email": "jack.anderson@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 11,
+    "fields": {
+      "username": "kate.thomas",
+      "first_name": "Kate",
+      "last_name": "Thomas",
+      "email": "kate.thomas@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 12,
+    "fields": {
+      "username": "liam.jackson",
+      "first_name": "Liam",
+      "last_name": "Jackson",
+      "email": "liam.jackson@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 13,
+    "fields": {
+      "username": "mia.white",
+      "first_name": "Mia",
+      "last_name": "White",
+      "email": "mia.white@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 14,
+    "fields": {
+      "username": "noah.harris",
+      "first_name": "Noah",
+      "last_name": "Harris",
+      "email": "noah.harris@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 15,
+    "fields": {
+      "username": "olivia.martin",
+      "first_name": "Olivia",
+      "last_name": "Martin",
+      "email": "olivia.martin@university.edu",
+      "password": "pbkdf2_sha256$720000$XnMhLW8nYZKhXZ0ZlIpPYw$Yjs0qK7Q5V6rX8vZ9Y0A1B2C3D4E5F6G7H8I9J0K=",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "last_login": null,
+      "date_joined": "2025-09-01T08:00:00Z"
+    }
+  }
+]
